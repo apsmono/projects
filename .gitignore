@@ -19,3 +19,6 @@ dist/
 # Backup directories
 wedding-invitation-backup-*/
 _local-backups/
+
+# Prevent accidental nested clone
+projects/
