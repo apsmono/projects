@@ -1,0 +1,12 @@
+[submodule "solo-leveling"]
+	path = solo-leveling
+	url = git@github-apsmono:apsmono/solo-leveling.git
+[submodule "dashboard"]
+	path = dashboard
+	url = git@github-apsmono:apsmono/dashboard.git
+[submodule "wedding-invitation"]
+	path = wedding-invitation
+	url = git@github-apsmono:apsmono/wedding-invitation.git
+[submodule "koperasi"]
+	path = koperasi
+	url = git@github-apsmono:apsmono/koperasi.git
