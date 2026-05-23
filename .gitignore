@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Local environment
+.env
+.credentials/
+.venv/
+
+# Node.js
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+.claude/
+.cursor/
+
+# Backup directories
+wedding-invitation-backup-*/
+_local-backups/
