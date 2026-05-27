@@ -114,6 +114,7 @@ Adopted from `dashboard_2.0`: **Conventional Commits** with optional scope.
 | `style` | formatting, whitespace, semicolons |
 | `docs` | documentation only |
 | `test` | adding or updating tests |
+| `build` | build system, bundler, compiler changes |
 | `ci` | CI/CD changes |
 | `merge` | merge commits |
 | `sync` | sync/update from another source |
