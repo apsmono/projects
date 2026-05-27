@@ -22,3 +22,8 @@ _local-backups/
 
 # Prevent accidental nested clone
 projects/
+
+# Generated artifacts
+graphify-out/
+.planning/
+

@@ -6,6 +6,8 @@ Personal development workspace managed as a parent repository with git submodule
 
 | Doc | Purpose |
 |-----|---------|
+| [ROADMAP.md](ROADMAP.md) | **General workspace plan** — cross-cutting roadmap, phase tracking, and per-project plan linkage |
+| [SECRETS_INVENTORY.md](SECRETS_INVENTORY.md) | Unified secret/env inventory across all projects |
 | [CLAUDE.md](CLAUDE.md) | Entry point for AI coding agents — links everything below |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Big-picture architecture (workspace + the brain's layers) |
 | [REPO_MAP.md](REPO_MAP.md) | Where everything lives |

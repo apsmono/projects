@@ -95,18 +95,35 @@ There is **no more monorepo sync**. Each submodule is an independent repository 
 
 ## Commit Message Format (AI-generated)
 
+Adopted from `dashboard_2.0`: **Conventional Commits** with optional scope.
+
 ```text
-<type>(<scope>): <summary>
+<type>(<scope>): <subject>
 
-Files:
-- add: <file>
-- modify: <file>
-- remove: <file>
+<body>
 
-Changes:
-- <what changed>
-- <why it changed>
+<footer>
 ```
+
+| Type | Use for |
+|------|---------|
+| `feat` | new feature |
+| `fix` | bug fix |
+| `chore` | tooling, deps, build changes |
+| `refactor` | code restructuring, no behavior change |
+| `style` | formatting, whitespace, semicolons |
+| `docs` | documentation only |
+| `test` | adding or updating tests |
+| `ci` | CI/CD changes |
+| `merge` | merge commits |
+| `sync` | sync/update from another source |
+
+- **Scope** (optional): component, module, or file group in parentheses — e.g. `feat(api):`, `fix(ui):`, `chore(ci):`
+- **Subject**: imperative mood, lowercase, no trailing period, max 72 chars
+- **Body** (optional): explain WHAT and WHY, wrap at 72 chars
+- **Footer** (optional): reference ClickUp task ID — e.g. `CU-86dxxxxxx`
+
+Each repo has a `.gitmessage` template configured via `git config commit.template .gitmessage`.
 
 ## Security
 

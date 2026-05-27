@@ -12,6 +12,8 @@ projects/                              ← parent repo: apsmono/projects
 ├── microservices/        (tracked)    standalone FastAPI services — scaffolding
 │
 ├── README.md             — workspace overview + quick start
+├── ROADMAP.md            — **general workspace plan**: cross-cutting roadmap + per-project plan linkage
+├── SECRETS_INVENTORY.md  — unified secret/env inventory across all projects
 ├── ARCHITECTURE.md       — workspace + brain architecture (big picture)
 ├── CONVENTIONS.md        — git, code style, submodule, documentation rules
 ├── GLOSSARY.md           — shared terminology

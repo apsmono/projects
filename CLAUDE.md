@@ -17,6 +17,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Companion docs (read as needed)
 
+- **[ROADMAP.md](ROADMAP.md)** — **general workspace plan**: cross-cutting roadmap, phase tracking, and per-project plan linkage.
+- **[SECRETS_INVENTORY.md](SECRETS_INVENTORY.md)** — unified secret/env inventory across all projects.
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** — workspace shape + the brain's four-layer architecture and three execution patterns.
 - **[REPO_MAP.md](REPO_MAP.md)** — directory map for the workspace and the brain.
 - **[CONVENTIONS.md](CONVENTIONS.md)** — git/submodule workflow, code style, secrets, documentation rules.
