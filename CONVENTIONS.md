@@ -36,20 +36,30 @@ This workspace uses the SSH host alias **`github-apsmono`** (see `.gitmodules`).
 
 ## Commit messages
 
-Conventional-commit style: `<type>(<scope>): <summary>`. Common types seen in history: `feat`, `fix`, `chore`, `docs`, `init`. Bumping a submodule pin uses `chore: bump <submodule>` or `chore: update submodules`.
+All repos follow **Conventional Commits** (`<type>(<scope>): <subject>`) adopted from `dashboard_2.0`.
 
-AI-generated commits in the brain follow an extended format (see `AGENTS.md`):
+| Type | Use for |
+|------|---------|
+| `feat` | new feature |
+| `fix` | bug fix |
+| `chore` | tooling, deps, build changes |
+| `refactor` | code restructuring, no behavior change |
+| `style` | formatting, whitespace, semicolons |
+| `docs` | documentation only |
+| `test` | adding or updating tests |
+| `build` | build system, bundler, compiler changes |
+| `ci` | CI/CD changes |
+| `merge` | merge commits |
+| `sync` | sync/update from another source |
 
-```
-<type>(<scope>): <summary>
+- **Scope** (optional): component, module, or file group in parentheses — e.g. `feat(api):`, `fix(ui):`, `chore(ci):`
+- **Subject**: imperative mood, lowercase, no trailing period, max 72 chars
+- **Body** (optional): explain WHAT and WHY, wrap at 72 chars
+- **Merge commits**: `merge: integrate branch <branch-name> into <target>`
 
-Files:
-- add|modify|remove: <file>
+Each repo has a `.gitmessage` template configured via `git config commit.template .gitmessage`.
 
-Changes:
-- <what changed>
-- <why it changed>
-```
+Bumping a submodule pin uses `chore: bump <submodule>` or `chore: update submodules`.
 
 ## Branch naming (brain / agent work)
 
