@@ -2,6 +2,20 @@
 
 Personal development workspace managed as a parent repository with git submodules.
 
+## Documentation
+
+| Doc | Purpose |
+|-----|---------|
+| [CLAUDE.md](CLAUDE.md) | Entry point for AI coding agents — links everything below |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Big-picture architecture (workspace + the brain's layers) |
+| [REPO_MAP.md](REPO_MAP.md) | Where everything lives |
+| [CONVENTIONS.md](CONVENTIONS.md) | Git, submodule, code-style, and docs rules |
+| [GLOSSARY.md](GLOSSARY.md) | Shared terminology |
+| [AI_AGENTS.md](AI_AGENTS.md) | AI & AI-agent environment (in-product agents + coding-agent rules) |
+| [AGENTS.md](AGENTS.md) | Short agent operating rules (companion to the above) |
+
+Each submodule keeps its own deeper docs — notably `solo-leveling/` (`CLAUDE.md`, `ARCHITECTURE.md`, `AI_CONTEXT.md`, `docs/`).
+
 ## Quick Start
 
 ```bash
