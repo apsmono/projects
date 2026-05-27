@@ -27,7 +27,7 @@ Deployment is per-project and independent:
 |---|---|---|
 | solo-leveling | MacMini (Docker) / Railway | `docker compose up -d`, health at `/healthz` |
 | dashboard | GitHub Pages | `.github/workflows/deploy.yml` |
-| wedding-invitation | GitHub Pages / Cloudflare / Vercel | `npm run build` → `dist/` |
+| wedding-invitation | GitHub Pages / Cloudflare / Vercel | `bun run build` → `dist/` |
 | koperasi | Cloudflare Pages | static upload |
 
 ## The brain (solo-leveling) — layered architecture

@@ -91,8 +91,8 @@ unaffected and can keep running in parallel.
 ```bash
 # from the parent repo root
 firebase use apsmono-projects
-cd wedding-invitation/functions && npm install && npm run build && cd ../..
-cd koperasi/functions && npm install && npm run build && cd ../..
+cd wedding-invitation/functions && bun install && bun run build && cd ../..
+cd koperasi/functions && bun install && bun run build && cd ../..
 firebase emulators:start
 # Emulator UI: http://localhost:4000  | functions: 5001  firestore: 8080  auth: 9099  storage: 9199
 ```
@@ -121,7 +121,7 @@ These are the next steps once the foundation is approved — **not done yet**.
 - No own Firestore collections — keep reading the solo-leveling API.
 
 ### wedding-invitation
-- Add the Firebase client SDK to `package.json` (currently absent) — `npm i firebase`.
+- Add the Firebase client SDK to `package.json` (currently absent) — `bun add firebase`.
 - Copy `firebase-init.ts`, `collections.ts`, `rsvp.schema.ts` into `src/`.
 - Build the RSVP flow: client writes validated docs to `wedding_rsvps` (rules already
   allow public validated `create`), or route through the `wedding` functions codebase if

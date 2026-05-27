@@ -61,10 +61,10 @@ Config comes from `.env` (template: `solo-leveling/.env.example`). The primary L
 ### wedding-invitation
 ```bash
 cd wedding-invitation
-npm install
-npm run dev        # http://localhost:5173
-npm run build      # TS check + Vite build → dist/
-npm run preview
+bun install
+bun run dev        # http://localhost:5173
+bun run build      # TS check + Vite build → dist/
+bun run preview
 ```
 
 ### dashboard / koperasi (static, no build)

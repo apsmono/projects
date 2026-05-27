@@ -71,7 +71,7 @@ git commit -m "chore: bump <submodule>"
 
 - **Stack:** Vite 6 + React 19 + TypeScript 5.7 + Tailwind CSS 3.4
 - **Language:** Bahasa Indonesia
-- **Build:** `npm run build` → outputs to `dist/`
+- **Build:** `bun run build` → outputs to `dist/`
 - **Deploy:** GitHub Pages via `.github/workflows/deploy.yml`
 
 ### koperasi — Koperasi KKS Landing Page

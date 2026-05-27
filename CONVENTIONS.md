@@ -79,7 +79,7 @@ From `solo-leveling/CONVENTIONS.md` — used when AI agents do governed work:
 ## Frontend
 
 - **dashboard / koperasi** — pure HTML5 + CSS3 + vanilla JS, **no build step**. Keep dependencies CDN-loaded.
-- **wedding-invitation** — Vite 6 + React 19 + TypeScript 5.7 + Tailwind 3.4; `npm run build` runs the TS check then the Vite build into `dist/`.
+- **wedding-invitation** — Vite 6 + React 19 + TypeScript 5.7 + Tailwind 3.4; `bun run build` runs the TS check then the Vite build into `dist/`.
 - When a site is served under a sub-path, set the framework `base` accordingly (e.g. Vite `base: '/wedding-invitation/'`).
 - User-facing copy for `wedding-invitation` and `koperasi` is **Bahasa Indonesia** — keep it that way.
 

@@ -74,9 +74,9 @@ docker compose up -d
 ### wedding-invitation
 ```bash
 cd wedding-invitation
-npm install
-npm run dev      # http://localhost:5173
-npm run build    # outputs dist/
+bun install
+bun run dev      # http://localhost:5173
+bun run build    # outputs dist/
 ```
 
 ### dashboard (local preview)
