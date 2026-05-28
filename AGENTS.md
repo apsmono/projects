@@ -51,6 +51,9 @@ git commit -m "chore: bump <submodule>"
 4. `git add <submodule>` to record the new commit SHA
 5. Commit and push the parent repo
 
+### Commit and push rule
+When making changes to any file in this workspace, **always commit and push** those changes. Do not leave uncommitted work in the working tree. This applies to the parent repository and every submodule. If a submodule has changes, commit and push inside the submodule first, then update the parent repo's submodule reference and push the parent repo.
+
 ## Project Quick Reference
 
 ### solo-leveling — Backend Brain
@@ -122,9 +125,23 @@ Adopted from `dashboard_2.0`: **Conventional Commits** with optional scope.
 - **Scope** (optional): component, module, or file group in parentheses — e.g. `feat(api):`, `fix(ui):`, `chore(ci):`
 - **Subject**: imperative mood, lowercase, no trailing period, max 72 chars
 - **Body** (optional): explain WHAT and WHY, wrap at 72 chars
+- **Footer** (required): `Assisted-by:` trailer listing every AI agent that assisted with the commit
+  ```
+  Assisted-by: Kimi <kimi@kimi.moonshot.cn>
+  Assisted-by: Claude <claude@anthropic.com>
+  ```
+  Add one line per agent. Also accepted: `Co-authored-by:`.
 - **Footer** (optional): reference ClickUp task ID — e.g. `CU-86dxxxxxx`
 
 Each repo has a `.gitmessage` template configured via `git config commit.template .gitmessage`.
+
+A `commit-msg` hook enforces the `Assisted-by` trailer. Install or re-install hooks with:
+
+```bash
+bash scripts/install-commit-hooks.sh
+```
+
+Merge, squash, and revert commits are exempt from this requirement.
 
 ## Security
 
