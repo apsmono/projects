@@ -10,6 +10,7 @@ This directory (`~/Documents/projects`) is the owner's development workspace, ma
 projects/                            ← Parent repo: apsmono/projects
 ├── solo-leveling/                   ← submodule: apsmono/solo-leveling
 ├── dashboard/                       ← submodule: apsmono/dashboard
+├── apsmono.github.io/               ← submodule: apsmono/apsmono.github.io
 ├── wedding-invitation/              ← submodule: apsmono/wedding-invitation
 ├── koperasi/                        ← submodule: apsmono/koperasi
 ├── scrapers/                        ← tracked in parent repo
@@ -63,11 +64,17 @@ When making changes to any file in this workspace, **always commit and push** th
 - **Run:** `uvicorn src.app:app --port 8000 --reload`
 - **Deploy:** MacMini via Docker Compose, or Railway
 
-### dashboard — Portfolio & Command Center
+### apsmono.github.io — Portfolio Site
+
+- **Stack:** Vite 6 + React 19 + TypeScript 5.7 + Tailwind CSS 4
+- **Deploy:** GitHub Pages via `.github/workflows/deploy.yml` to `apsmono.com`
+- **Local preview:** `npm run dev` → `http://localhost:5173`
+
+### dashboard — Command Center
 
 - **Stack:** Pure HTML5, CSS3, vanilla JavaScript
 - **Auth:** Firebase Authentication (Google Sign-In)
-- **Deploy:** GitHub Pages via `.github/workflows/deploy.yml`
+- **Deploy:** GitHub Pages via `.github/workflows/deploy.yml` (embedded at `/dashboard/`)
 - **Local preview:** `python -m http.server 8080`
 
 ### wedding-invitation — Digital Wedding Invite
@@ -92,6 +99,7 @@ There is **no more monorepo sync**. Each submodule is an independent repository 
 | Project | Deploy Target | Method |
 |---------|--------------|--------|
 | solo-leveling (brain) | Railway / MacMini Docker | `docker compose up -d` |
+| apsmono.github.io | GitHub Pages | Workflow in `apsmono.github.io/.github/workflows/deploy.yml` |
 | dashboard | GitHub Pages | Workflow in `dashboard/.github/workflows/deploy.yml` |
 | wedding-invitation | GitHub Pages | Workflow in `wedding-invitation/.github/workflows/deploy.yml` |
 | koperasi | Cloudflare Pages | Connect `apsmono/koperasi` repo in Cloudflare Dashboard |

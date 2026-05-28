@@ -10,3 +10,6 @@
 [submodule "koperasi"]
 	path = koperasi
 	url = git@github-apsmono:apsmono/koperasi.git
+[submodule "apsmono.github.io"]
+	path = apsmono.github.io
+	url = git@github-apsmono:apsmono/apsmono.github.io.git

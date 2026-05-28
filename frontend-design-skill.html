@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Design — Skill Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-tertiary: #1a1a1a;
+      --text-primary: #f0f0f0;
+      --text-secondary: #a1a1a1;
+      --text-muted: #6b6b6b;
+      --accent: #ff6b35;
+      --accent-hover: #ff8555;
+      --accent-soft: rgba(255, 107, 53, 0.12);
+      --border: #2a2a2a;
+      --border-subtle: #1f1f1f;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Sidebar */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-subtle);
+      overflow-y: auto;
+      padding: 32px 24px;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .sidebar-header .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      padding-left: 8px;
+    }
+
+    .nav-section ul {
+      list-style: none;
+    }
+
+    .nav-section li {
+      margin-bottom: 2px;
+    }
+
+    .nav-section a {
+      display: block;
+      padding: 5px 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-section a:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+
+    .nav-section a.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: 280px;
+      padding: 48px 64px;
+      max-width: 900px;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 64px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .hero .meta {
+      margin-top: 24px;
+      display: flex;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .hero .meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Typography Scale */
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-top: 40px;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+    }
+
+    li::marker {
+      color: var(--accent);
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+    }
+
+    th {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Code */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--bg-tertiary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #e2e8f0;
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+
+    /* Syntax highlighting colors */
+    .token-keyword { color: #c678dd; }
+    .token-string { color: #98c379; }
+    .token-comment { color: #5c6370; font-style: italic; }
+    .token-function { color: #61afef; }
+    .token-number { color: #d19a66; }
+    .token-operator { color: #56b6c2; }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 8px;
+    }
+
+    .checklist li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+    }
+
+    .checklist li.checked::before {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .checklist li.checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 6px;
+      width: 5px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* Blockquote */
+    blockquote {
+      margin: 24px 0;
+      padding: 16px 24px;
+      border-left: 3px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+    }
+
+    /* Banned tag */
+    .banned {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .do-tag {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* Section divider */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 64px 0;
+    }
+
+    /* Architecture diagram */
+    .diagram {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 24px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      overflow-x: auto;
+    }
+
+    .diagram .highlight {
+      color: var(--accent);
+    }
+
+    /* Info box */
+    .info-box {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .info-box-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* Mobile */
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 32px 24px;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+
+      .main {
+        padding: 24px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>Frontend Design</h1>
+        <span class="badge">Skill Reference</span>
+      </div>
+      <nav>
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <ul>
+            <li><a href="#overview">Skill Description</a></li>
+            <li><a href="#stack">Stack & Output</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Design Thinking</div>
+          <ul>
+            <li><a href="#context">Understand Context</a></li>
+            <li><a href="#tone">Choose an Extreme Tone</a></li>
+            <li><a href="#unforgettable">The Unforgettable Element</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Aesthetics</div>
+          <ul>
+            <li><a href="#typography">Typography</a></li>
+            <li><a href="#color">Color & Theme</a></li>
+            <li><a href="#motion">Motion & Animation</a></li>
+            <li><a href="#spatial">Spatial Composition</a></li>
+            <li><a href="#backgrounds">Backgrounds & Atmosphere</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Workflow</div>
+          <ul>
+            <li><a href="#anti-ai-slop">Anti-AI-Slop Checklist</a></li>
+            <li><a href="#build-workflow">Build Workflow</a></li>
+            <li><a href="#project-structure">Project Structure</a></li>
+            <li><a href="#site-config">Site Config Pattern</a></li>
+            <li><a href="#pre-implementation">Pre-Implementation</a></li>
+            <li><a href="#shadcn">shadcn/ui Components</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="overview">
+        <h1>Frontend<br>Design</h1>
+        <p>Create distinctive, production-grade web interfaces from text requirements. No mockups needed — just describe what you want and commit to a bold aesthetic direction.</p>
+        <div class="meta">
+          <span>⚡ React 18 + TypeScript</span>
+          <span>🎨 Tailwind CSS + shadcn/ui</span>
+          <span>✨ Framer Motion</span>
+        </div>
+      </section>
+
+      <section id="stack">
+        <h2>Stack & Output</h2>
+        <table>
+          <thead>
+            <tr><th>Layer</th><th>Technology</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Framework</td><td>React 18 + TypeScript</td></tr>
+            <tr><td>Styling</td><td>Tailwind CSS</td></tr>
+            <tr><td>Components</td><td>shadcn/ui</td></tr>
+            <tr><td>Motion</td><td>Framer Motion</td></tr>
+            <tr><td>Build</td><td>Vite (static) or Next.js (Vercel)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="context">
+        <h2>Design Thinking</h2>
+        <p>Before writing any code, commit to a <strong>bold aesthetic direction</strong>.</p>
+
+        <h3>1. Understand Context</h3>
+        <ul>
+          <li><strong>Purpose</strong>: What problem does this interface solve? Who uses it?</li>
+          <li><strong>Audience</strong>: Developer tools? Consumer app? Enterprise? Creative agency?</li>
+          <li><strong>Constraints</strong>: Performance needs, accessibility requirements, brand guidelines?</li>
+        </ul>
+
+        <h3 id="tone">2. Choose an Extreme Tone</h3>
+        <p>Pick <strong>ONE</strong> and commit fully — timid designs fail:</p>
+        <table>
+          <thead>
+            <tr><th>Tone</th><th>Characteristics</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Brutally Minimal</strong></td><td>Sparse, monochrome, massive typography, raw edges</td></tr>
+            <tr><td><strong>Maximalist Chaos</strong></td><td>Layered, dense, overlapping elements, controlled disorder</td></tr>
+            <tr><td><strong>Retro-Futuristic</strong></td><td>Neon accents, geometric shapes, CRT aesthetics</td></tr>
+            <tr><td><strong>Organic/Natural</strong></td><td>Soft curves, earth tones, hand-drawn elements</td></tr>
+            <tr><td><strong>Luxury/Refined</strong></td><td>Subtle animations, premium typography, restrained palette</td></tr>
+            <tr><td><strong>Editorial/Magazine</strong></td><td>Strong grid, dramatic headlines, whitespace as feature</td></tr>
+            <tr><td><strong>Brutalist/Raw</strong></td><td>Exposed structure, harsh contrasts, anti-design</td></tr>
+            <tr><td><strong>Art Deco/Geometric</strong></td><td>Gold accents, symmetry, ornate patterns</td></tr>
+            <tr><td><strong>Soft/Pastel</strong></td><td>Rounded corners, gentle gradients, friendly</td></tr>
+            <tr><td><strong>Industrial/Utilitarian</strong></td><td>Functional, monospace, data-dense</td></tr>
+          </tbody>
+        </table>
+
+        <h3 id="unforgettable">3. Define the Unforgettable Element</h3>
+        <p>What's the <strong>ONE thing</strong> someone will remember? A hero animation? Typography treatment? Color combination? Unusual layout?</p>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="typography">
+        <h2>Aesthetics Guidelines</h2>
+
+        <h3>Typography — NEVER Generic</h3>
+        <p><span class="banned">BANNED</span>: Inter, Roboto, Arial, system fonts, Open Sans</p>
+        <p><span class="do-tag">DO</span>: Distinctive, characterful choices that elevate the design.</p>
+
+        <table>
+          <thead>
+            <tr><th>Use Case</th><th>Approach</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Display/Headlines</td><td>Bold personality — Clash Display, Cabinet Grotesk, Satoshi, Space Grotesk (sparingly), Playfair Display</td></tr>
+            <tr><td>Body Text</td><td>Refined readability — Instrument Sans, General Sans, Plus Jakarta Sans</td></tr>
+            <tr><td>Monospace/Code</td><td>DM Mono, JetBrains Mono, IBM Plex Mono</td></tr>
+            <tr><td>Pairing Strategy</td><td>Contrast weights (thin display + bold body), contrast styles (serif + geometric sans)</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Size Progression</strong>: Use 3x+ jumps, not timid 1.5x increments.</p>
+      </section>
+
+      <section id="color">
+        <h3>Color & Theme</h3>
+        <p><span class="banned">BANNED</span>: Purple gradients on white, evenly-distributed 5-color palettes</p>
+        <p><span class="do-tag">DO</span>:</p>
+        <ul>
+          <li><strong>Dominant + Sharp Accent</strong>: 70-20-10 rule (primary-secondary-accent)</li>
+          <li><strong>CSS Variables</strong>: <code>--primary</code>, <code>--accent</code>, <code>--surface</code>, <code>--text</code></li>
+          <li><strong>Commit to dark OR light</strong>: Don't hedge with gray middle-grounds</li>
+          <li><strong>High contrast CTAs</strong>: Buttons should pop dramatically</li>
+        </ul>
+
+        <pre><code>:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1a1;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+}</code></pre>
+      </section>
+
+      <section id="motion">
+        <h3>Motion & Animation</h3>
+        <p><strong>Priority</strong>: One orchestrated page load > scattered micro-interactions</p>
+
+        <h4>High-Impact Moments</h4>
+        <ul>
+          <li>Staggered hero reveals (<code>animation-delay</code>)</li>
+          <li>Scroll-triggered section entrances</li>
+          <li>Hover states that surprise (scale, color shift, shadow depth)</li>
+          <li>Smooth page transitions</li>
+        </ul>
+
+        <h4>Implementation</h4>
+        <ul>
+          <li>CSS-only for simple animations</li>
+          <li>Framer Motion for React (pre-installed via init scripts)</li>
+          <li>Keep durations 200-400ms (snappy, not sluggish)</li>
+        </ul>
+      </section>
+
+      <section id="spatial">
+        <h3>Spatial Composition</h3>
+        <p><span class="banned">BANNED</span>: Centered, symmetrical, predictable layouts</p>
+        <p><span class="do-tag">DO</span>:</p>
+        <ul>
+          <li>Asymmetry with purpose</li>
+          <li>Overlapping elements</li>
+          <li>Diagonal flow / grid-breaking</li>
+          <li>Generous negative space OR controlled density (pick one)</li>
+          <li>Off-grid hero sections</li>
+        </ul>
+      </section>
+
+      <section id="backgrounds">
+        <h3>Backgrounds & Atmosphere</h3>
+        <p><span class="banned">BANNED</span>: Solid white/gray backgrounds</p>
+        <p><span class="do-tag">DO</span>:</p>
+        <ul>
+          <li>Gradient meshes (subtle, not garish)</li>
+          <li>Noise/grain textures (SVG filter or CSS)</li>
+          <li>Geometric patterns (dots, lines, shapes)</li>
+          <li>Layered transparencies</li>
+          <li>Dramatic shadows for depth</li>
+          <li>Blur effects for glassmorphism</li>
+        </ul>
+
+        <pre><code>/* Subtle grain overlay */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,...") repeat;
+  opacity: 0.03;
+  pointer-events: none;
+}</code></pre>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="anti-ai-slop">
+        <h2>Anti-AI-Slop Checklist</h2>
+        <p>Before shipping, verify none of these appear:</p>
+        <table>
+          <thead>
+            <tr><th>Anti-Pattern</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Inter / Roboto / Arial font</td><td>Replace with distinctive alternative</td></tr>
+            <tr><td>Purple gradient on white</td><td>Choose contextual palette</td></tr>
+            <tr><td>All centered layout</td><td>Add asymmetry or left-align</td></tr>
+            <tr><td>No animations</td><td>Add orchestrated page load</td></tr>
+            <tr><td>Solid white/gray background</td><td>Add texture, gradient, or pattern</td></tr>
+            <tr><td>Evenly spaced colors</td><td>Apply 60-30-10 rule</td></tr>
+            <tr><td>Generic cards</td><td>Add unique styling treatment</td></tr>
+            <tr><td>Default shadows</td><td>Use layered, atmospheric shadows</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="build-workflow">
+        <h2>Build Workflow</h2>
+
+        <h3>Option A: Vite (Pure Static)</h3>
+        <pre><code># 1. Initialize from skill scripts
+bash ~/.config/agents/skills/frontend-design/scripts/init-vite.sh my-site
+cd my-site
+
+# 2. Develop
+npm run dev
+
+# 3. Build static files
+npm run build
+# Output: dist/
+
+# 4. Bundle to single HTML (optional)
+bash ~/.config/agents/skills/frontend-design/scripts/bundle-artifact.sh
+# Output: bundle.html</code></pre>
+
+        <h3>Option B: Next.js (Vercel Deploy)</h3>
+        <pre><code># 1. Initialize
+bash ~/.config/agents/skills/frontend-design/scripts/init-nextjs.sh my-site
+cd my-site
+
+# 2. Develop
+npm run dev
+
+# 3. Deploy to Vercel
+vercel</code></pre>
+      </section>
+
+      <section id="project-structure">
+        <h2>Project Structure</h2>
+
+        <h3>Vite Static</h3>
+        <div class="diagram">
+my-site/
+├── src/
+│   ├── components/     <span class="highlight"># React components</span>
+│   ├── components/ui/  <span class="highlight"># shadcn/ui components</span>
+│   ├── lib/            <span class="highlight"># Utilities, cn()</span>
+│   ├── styles/         <span class="highlight"># Global CSS</span>
+│   ├── config/
+│   │   └── site.ts     <span class="highlight"># Editable content config</span>
+│   ├── App.tsx
+│   └── main.tsx
+├── index.html
+├── tailwind.config.ts
+└── package.json</div>
+
+        <h3>Next.js</h3>
+        <div class="diagram">
+my-site/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   └── ui/             <span class="highlight"># shadcn/ui components</span>
+├── lib/
+│   └── utils.ts
+├── config/
+│   └── site.ts
+└── tailwind.config.ts</div>
+      </section>
+
+      <section id="site-config">
+        <h2>Site Config Pattern</h2>
+        <p>Keep all editable content in one file:</p>
+        <pre><code>// config/site.ts
+export const siteConfig = {
+  name: "Acme AI",
+  tagline: "Write better, faster",
+  description: "AI-powered writing assistant",
+
+  hero: {
+    badge: "Now in beta",
+    title: "Your words,\nsupercharged",
+    subtitle: "Write 10x faster with AI that understands your style",
+    cta: { text: "Get Started", href: "/signup" },
+    secondaryCta: { text: "Watch Demo", href: "#demo" },
+  },
+
+  features: [
+    { icon: "Zap", title: "Lightning Fast", description: "..." },
+    // ...
+  ],
+
+  pricing: [
+    { name: "Free", price: 0, features: [...] },
+    { name: "Pro", price: 19, features: [...], popular: true },
+  ],
+
+  faq: [
+    { q: "How does it work?", a: "..." },
+  ],
+
+  footer: {
+    links: [...],
+    social: [...],
+  }
+}</code></pre>
+      </section>
+
+      <section id="pre-implementation">
+        <h2>Pre-Implementation Checklist</h2>
+
+        <h3>Design Quality</h3>
+        <ul class="checklist">
+          <li class="checked">Typography is distinctive (no Inter/Roboto/Arial)</li>
+          <li class="checked">Color palette has clear dominant + accent (not evenly distributed)</li>
+          <li class="checked">Background has atmosphere (not solid white/gray)</li>
+          <li class="checked">At least one memorable/unforgettable element</li>
+          <li class="checked">Animations are orchestrated (not scattered)</li>
+        </ul>
+
+        <h3>Mobile Responsiveness</h3>
+        <ul class="checklist">
+          <li>Hero centers on mobile (no empty grid space)</li>
+          <li>All grids collapse to single column</li>
+          <li>Forms stack vertically</li>
+          <li>Large lists use accordion (not horizontal scroll)</li>
+          <li>Font sizes scale down appropriately</li>
+        </ul>
+
+        <h3>Form Consistency</h3>
+        <ul class="checklist">
+          <li>Input, select, textarea all styled consistently</li>
+          <li>Radio/checkbox visible (check transparent-border styles)</li>
+          <li>Dropdown options have readable backgrounds</li>
+          <li>Labels use CSS variables (not hardcoded colors)</li>
+        </ul>
+
+        <h3>Accessibility</h3>
+        <ul class="checklist">
+          <li>Color contrast meets WCAG AA (4.5:1 text, 3:1 UI)</li>
+          <li>Focus states visible</li>
+          <li>Semantic HTML (nav, main, section, article)</li>
+          <li>Alt text for images</li>
+          <li>Keyboard navigation works</li>
+        </ul>
+      </section>
+
+      <section id="shadcn">
+        <h2>shadcn/ui Components</h2>
+        <p>10 common components pre-installed: <code>button</code>, <code>badge</code>, <code>card</code>, <code>accordion</code>, <code>dialog</code>, <code>navigation-menu</code>, <code>tabs</code>, <code>sheet</code>, <code>separator</code>, <code>avatar</code>, <code>alert</code>.</p>
+
+        <p>Add more with:</p>
+        <pre><code>npx shadcn@latest add [name]
+npx shadcn@latest add --all</code></pre>
+
+        <h3>Most Used for Landing Pages</h3>
+        <table>
+          <thead>
+            <tr><th>Component</th><th>Use Case</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>Button</code>, <code>Badge</code></td><td>CTAs and labels</td></tr>
+            <tr><td><code>Card</code></td><td>Feature cards, pricing tiers</td></tr>
+            <tr><td><code>Accordion</code></td><td>FAQ sections</td></tr>
+            <tr><td><code>Dialog</code></td><td>Modals, video players</td></tr>
+            <tr><td><code>NavigationMenu</code></td><td>Header nav</td></tr>
+            <tr><td><code>Tabs</code></td><td>Feature showcases</td></tr>
+            <tr><td><code>Carousel</code></td><td>Testimonials</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section>
+        <h2>Example Prompt → Output</h2>
+        <blockquote>
+          <p>"Portfolio site for a photographer. Minimal, editorial feel. Grid gallery with lightbox, about section, contact form."</p>
+        </blockquote>
+
+        <h3>Design Decisions</h3>
+        <ul>
+          <li><strong>Tone</strong>: Editorial/Magazine</li>
+          <li><strong>Typography</strong>: Cormorant Garamond (display) + Plus Jakarta Sans (body)</li>
+          <li><strong>Color</strong>: Near-black bg (#0c0c0c), warm white text (#f5f5f0), copper accent (#b87333)</li>
+          <li><strong>Unforgettable</strong>: Full-bleed hero image with text overlay that reveals on scroll</li>
+          <li><strong>Motion</strong>: Gallery images fade in staggered on scroll</li>
+        </ul>
+
+        <p><strong>Output</strong>: Complete Next.js project with responsive gallery, lightbox component, and contact form with validation.</p>
+      </section>
+
+      <footer style="margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px;">
+        <p>Based on Anthropic's frontend-design, web-artifacts-builder, and community frontend-design-v2 skills.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Highlight active nav item on scroll
+    const sections = document.querySelectorAll('section[id], h3[id]');
+    const navLinks = document.querySelectorAll('.nav-section a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

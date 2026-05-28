@@ -12,13 +12,15 @@ The workspace is a **constellation of independent projects** pinned together by 
 ```
                          apsmono/projects (parent)
                                   │ pins SHAs
-        ┌───────────────┬─────────┴────────┬──────────────────┐
-        ▼               ▼                  ▼                  ▼
-  solo-leveling     dashboard      wedding-invitation      koperasi
-  (FastAPI brain)  (static UI)       (React SPA)        (static page)
-        ▲   │
-        │   └── REST /api/v1 + /command (Firebase-auth'd)
-        └────────── dashboard command center calls the brain
+        ┌───────────┬─────────────┼─────────────┬──────────────────┐
+        ▼           ▼             ▼             ▼                  ▼
+  solo-leveling  apsmono.      dashboard   wedding-invitation    koperasi
+  (FastAPI brain) github.io    (static UI)    (React SPA)      (static page)
+                 (portfolio)       ▲
+                                   │
+                    REST /api/v1 + /command (Firebase-auth'd)
+                                   │
+                        dashboard command center calls the brain
 ```
 
 Deployment is per-project and independent:
@@ -26,6 +28,7 @@ Deployment is per-project and independent:
 | Project | Target | Mechanism |
 |---|---|---|
 | solo-leveling | MacMini (Docker) / Railway | `docker compose up -d`, health at `/healthz` |
+| apsmono.github.io | GitHub Pages | `npm run build` → `dist/` via `.github/workflows/deploy.yml` |
 | dashboard | GitHub Pages | `.github/workflows/deploy.yml` |
 | wedding-invitation | GitHub Pages / Cloudflare / Vercel | `bun run build` → `dist/` |
 | koperasi | Cloudflare Pages | static upload |
@@ -90,6 +93,7 @@ The brain handles work in three distinct ways — understanding these explains m
 
 ## Frontend architectures (brief)
 
+- **apsmono.github.io** — portfolio site; Vite + React 19 + Tailwind CSS 4. Custom domain `apsmono.com`. Embeds dashboard at `/dashboard/` path.
 - **dashboard** — static site; Firebase Auth (Google popup) gates a command-center UI with four views (overview, commands, reminders, cmd). `api.js` wraps fetch with a Firebase ID token bearer; `API_BASE` in `shared/firebase-config.js` points at the deployed brain.
 - **wedding-invitation** — React 19 SPA: ~12 section components (hero, story, countdown, events, gallery, RSVP→WhatsApp, etc.), Zustand store, custom hooks (`useCountdown`, `useScrollSpy`), Framer Motion animations.
 - **koperasi** — single static landing page (`index.html` + `css/base.css` + `js/main.js`): responsive nav, scroll effects, contact-form stub.

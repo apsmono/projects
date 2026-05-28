@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>apsmono.com — Infrastructure Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap');
+
+    :root {
+      --canvas: #07080a;
+      --surface: #0d0d0d;
+      --elevated: #101111;
+      --card: #121212;
+      --hairline: #242728;
+      --text-primary: #f4f4f6;
+      --text-body: #cdcdcd;
+      --text-muted: #9c9c9d;
+      --accent: #ff6b35;
+      --accent-soft: rgba(255, 107, 53, 0.08);
+      --accent-hover: #ff8555;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--canvas);
+      color: var(--text-body);
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Layout */
+    .page {
+      display: block;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--hairline);
+      overflow-y: auto;
+      padding: 40px 28px;
+      z-index: 100;
+    }
+
+    .brand {
+      margin-bottom: 40px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .brand h1 {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .brand p {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .brand .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .nav-group {
+      margin-bottom: 28px;
+    }
+
+    .nav-label {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+
+    .nav-group ul {
+      list-style: none;
+    }
+
+    .nav-group li {
+      margin-bottom: 2px;
+    }
+
+    .nav-group a {
+      display: block;
+      padding: 6px 10px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-group a:hover {
+      color: var(--text-body);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .nav-group a.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-left-color: var(--accent);
+    }
+
+    .phase-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 6px;
+      background: var(--elevated);
+      color: var(--text-muted);
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 300px;
+      padding: 60px 72px;
+      max-width: 900px;
+      min-width: 0;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 72px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 6px 14px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--elevated);
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--hairline);
+      white-space: nowrap;
+    }
+
+    /* Architecture diagram */
+    .arch-diagram {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      padding: 32px;
+      margin: 32px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.85;
+      color: var(--text-muted);
+      overflow-x: auto;
+      position: relative;
+      white-space: pre;
+    }
+
+    .arch-diagram::before {
+      content: 'ARCHITECTURE';
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .arch-diagram .hl { color: var(--accent); font-weight: 500; }
+    .arch-diagram .hl2 { color: var(--success); font-weight: 500; }
+    .arch-diagram .hl3 { color: var(--info); font-weight: 500; }
+    .arch-diagram .hl4 { color: #c084fc; font-weight: 500; }
+
+    /* Typography */
+    h2 {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-top: 72px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+
+    h3 {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-top: 48px;
+      margin-bottom: 14px;
+    }
+
+    h4 {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 32px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    p {
+      margin-bottom: 16px;
+    }
+
+    /* Phase section styling */
+    .phase {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 48px;
+    }
+
+    .phase::before {
+      content: attr(data-phase);
+      position: absolute;
+      left: -12px;
+      top: 0;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent);
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-bottom: 20px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    li::marker {
+      color: var(--accent);
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 28px 0;
+      font-size: 13.5px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+    }
+
+    thead {
+      background: var(--elevated);
+    }
+
+    th {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 700;
+      text-align: left;
+      padding: 12px 18px;
+      color: var(--text-primary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    td {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--hairline);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(255,255,255,0.015);
+    }
+
+    /* Code blocks */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--elevated);
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: #e8e8e8;
+      border: 1px solid var(--hairline);
+    }
+
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 24px 28px;
+      overflow-x: auto;
+      margin: 24px 0;
+      position: relative;
+    }
+
+    pre::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+      border-radius: 10px 10px 0 0;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #d4d4d4;
+    }
+
+    /* Callout boxes */
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .callout::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+    }
+
+    .callout.critical { border-color: rgba(239, 68, 68, 0.3); }
+    .callout.critical::before { background: var(--danger); }
+    .callout.warn { border-color: rgba(245, 158, 11, 0.3); }
+    .callout.warn::before { background: var(--warning); }
+    .callout.info { border-color: rgba(59, 130, 246, 0.3); }
+    .callout.info::before { background: var(--info); }
+    .callout.tip { border-color: rgba(34, 197, 94, 0.3); }
+    .callout.tip::before { background: var(--success); }
+
+    .callout-title {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .callout.critical .callout-title { color: var(--danger); }
+    .callout.warn .callout-title { color: var(--warning); }
+    .callout.info .callout-title { color: var(--info); }
+    .callout.tip .callout-title { color: var(--success); }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Steps / numbered procedure */
+    .steps {
+      list-style: none;
+      padding-left: 0;
+      counter-reset: step;
+    }
+
+    .steps > li {
+      position: relative;
+      padding-left: 48px;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .steps > li:last-child {
+      border-bottom: none;
+    }
+
+    .steps > li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 28px;
+      height: 28px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+
+    .steps > li strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 10px;
+    }
+
+    .checklist li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--hairline);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .checklist li.checked::before {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .checklist li.checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 7px;
+      width: 5px;
+      height: 9px;
+      border: solid var(--canvas);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--hairline);
+      margin: 64px 0;
+      position: relative;
+    }
+
+    .divider::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -3px;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* URL map grid */
+    .url-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 1px;
+      background: var(--hairline);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 24px 0;
+    }
+
+    .url-grid > div {
+      background: var(--surface);
+      padding: 12px 18px;
+      font-size: 13px;
+    }
+
+    .url-grid > div:nth-child(odd) {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+    }
+
+    .url-grid > div:nth-child(even) {
+      color: var(--text-muted);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: var(--canvas); }
+    ::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #333; }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 32px 24px; max-width: 100%; }
+      .hero h1 { font-size: 40px; }
+      .hero-desc { font-size: 16px; }
+      .arch-diagram { padding: 24px; font-size: 11px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      h2 { font-size: 24px; }
+      h3 { font-size: 18px; }
+      .main { padding: 24px 16px; }
+      .url-grid { grid-template-columns: 1fr; }
+      pre { padding: 16px 18px; }
+      .callout { padding: 16px 18px; }
+      .steps > li { padding-left: 40px; }
+      table { font-size: 12px; }
+      th, td { padding: 8px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>apsmono.com</h1>
+        <p><span class="dot"></span>Infrastructure Guide</p>
+      </div>
+      <nav>
+        <div class="nav-group">
+          <div class="nav-label">Overview</div>
+          <ul>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#cost">Cost Breakdown</a></li>
+          </ul>
+        </div>
+        <div class="nav-group">
+          <div class="nav-label">10 Phases</div>
+          <ul>
+            <li><a href="#p1">Phase 1 <span class="phase-badge">Domain</span></a></li>
+            <li><a href="#p2">Phase 2 <span class="phase-badge">DNS</span></a></li>
+            <li><a href="#p3">Phase 3 <span class="phase-badge">GitHub</span></a></li>
+            <li><a href="#p4">Phase 4 <span class="phase-badge">Pages</span></a></li>
+            <li><a href="#p5">Phase 5 <span class="phase-badge">Tunnel</span></a></li>
+            <li><a href="#p6">Phase 6 <span class="phase-badge">Firebase</span></a></li>
+            <li><a href="#p7">Phase 7 <span class="phase-badge">Backend</span></a></li>
+            <li><a href="#p8">Phase 8 <span class="phase-badge">Dashboard</span></a></li>
+            <li><a href="#p9">Phase 9 <span class="phase-badge">Wedding</span></a></li>
+            <li><a href="#p10">Phase 10 <span class="phase-badge">Test</span></a></li>
+          </ul>
+        </div>
+        <div class="nav-group">
+          <div class="nav-label">Reference</div>
+          <ul>
+            <li><a href="#urls">URL Map</a></li>
+            <li><a href="#troubleshoot">Troubleshooting</a></li>
+            <li><a href="#docs">Update Docs</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="top">
+        <div class="hero-tag">📋 Infrastructure Guide</div>
+        <h1>apsmono<span>.com</span></h1>
+        <p class="hero-desc">Complete wiring guide for Cloudflare DNS, GitHub Pages, Cloudflare Pages, Cloudflare Tunnel, Firebase, and MacMini backend.</p>
+        <div class="hero-meta">
+          <span>🌐 Cloudflare Edge</span>
+          <span>🔥 Firebase Backend</span>
+          <span>🖥️ MacMini Docker</span>
+          <span>📄 GitHub Pages</span>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture Overview</h2>
+        <div class="arch-diagram">
+┌─────────────────────────────────────────────────────────────┐
+│  <span class="hl">Cloudflare Edge</span>                                            │
+│  ├── DNS: <span class="hl">apsmono.com</span> (apex) → GitHub Pages                 │
+│  ├── DNS: <span class="hl">www.apsmono.com</span> → GitHub Pages                    │
+│  ├── DNS: <span class="hl">koperasi.apsmono.com</span> → Cloudflare Pages           │
+│  ├── DNS: <span class="hl">api.apsmono.com</span> → Cloudflare Tunnel → MacMini     │
+│  └── SSL + Proxy + DDoS (<span class="hl2">free</span>)                               │
+├─────────────────────────────────────────────────────────────┤
+│  <span class="hl3">GitHub Pages</span>                                               │
+│  ├── apsmono.com/ → apsmono.github.io (root portfolio)      │
+│  ├── apsmono.com/dashboard/ → dashboard repo                │
+│  └── apsmono.com/wedding-invitation/ → wedding repo         │
+├─────────────────────────────────────────────────────────────┤
+│  <span class="hl3">Cloudflare Pages</span>                                           │
+│  └── koperasi.apsmono.com → koperasi repo (already live)    │
+├─────────────────────────────────────────────────────────────┤
+│  <span class="hl4">MacMini (Docker)</span>                                           │
+│  └── api.apsmono.com → solo-leveling FastAPI (port 8000)    │
+├─────────────────────────────────────────────────────────────┤
+│  <span class="hl2">Firebase</span> (<span class="hl2">apsmono-projects</span>)                               │
+│  ├── Auth: Google Sign-In (dashboard)                       │
+│  ├── Firestore: reminders, commands, wedding_rsvps          │
+│  ├── Storage: wedding/ (photos)                             │
+│  └── Functions: wedding, koperasi (Node 20)                 │
+└─────────────────────────────────────────────────────────────┘</div>
+      </section>
+
+      <section id="cost">
+        <h2>Cost Breakdown</h2>
+        <table>
+          <thead>
+            <tr><th>Service</th><th>Annual Cost</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Domain (.com)</td><td><strong>$10.44</strong></td><td>Cloudflare Registrar at-cost pricing</td></tr>
+            <tr><td>Cloudflare DNS / Proxy / Tunnel</td><td><strong>$0</strong></td><td>Free tier covers everything</td></tr>
+            <tr><td>GitHub Pages (2 sites)</td><td><strong>$0</strong></td><td>Public repos = free</td></tr>
+            <tr><td>Cloudflare Pages (koperasi)</td><td><strong>$0</strong></td><td>Unlimited bandwidth on free tier</td></tr>
+            <tr><td>Firebase (Auth, Firestore, Functions)</td><td><strong>$0</strong></td><td>Personal use stays within free tier</td></tr>
+            <tr><td>MacMini electricity</td><td><strong>~$40</strong></td><td>~6W idle → ~$3-4/month</td></tr>
+            <tr><td>Railway (optional backup)</td><td><strong>$60</strong></td><td>If you keep Railway as failover</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout tip">
+          <div class="callout-title">💡 Minimum Viable Cost</div>
+          <p>Your first year costs roughly <strong>$50-80</strong> if MacMini is primary backend. If you also keep Railway as backup, budget <strong>$110-140/year</strong>.</p>
+        </div>
+
+        <div class="callout warn">
+          <div class="callout-title">⚠️ Cost Trap</div>
+          <p>Firebase Functions v2 <code>minInstances: 1</code> costs <strong>~$3-5/month per function</strong> even at zero traffic. Keep <code>minInstances: 0</code> for wedding and koperasi functions.</p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- PHASE 1 -->
+      <section class="phase" data-phase="P1" id="p1">
+        <h2>Phase 1 — Buy Domain at Cloudflare Registrar</h2>
+        <ol class="steps">
+          <li>
+            <strong>Go to Cloudflare Dashboard</strong> → <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a> → your account
+          </li>
+          <li>
+            <strong>Add site</strong> → enter <code>apsmono.com</code>
+          </li>
+          <li>
+            <strong>Registrar tab</strong> → Register domain → search <code>apsmono.com</code>
+          </li>
+          <li>
+            <strong>Purchase</strong> — should be ~<strong>$10.44/year</strong>. No markup.
+          </li>
+          <li>
+            <strong>DNS is automatic</strong> — Cloudflare manages it. No external nameserver changes.
+          </li>
+        </ol>
+
+        <div class="callout info">
+          <div class="callout-title">🛡️ Optional: Buy .dev Too</div>
+          <p>If you want <code>apsmono.dev</code> as a redirect: buy it in the same account (~$12-15/year). We'll 301 it to <code>apsmono.com</code> later in Phase 2.</p>
+        </div>
+      </section>
+
+      <!-- PHASE 2 -->
+      <section class="phase" data-phase="P2" id="p2">
+        <h2>Phase 2 — Configure DNS Records</h2>
+        <p>Cloudflare Dashboard → <code>apsmono.com</code> → DNS → Records</p>
+
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Name</th><th>Content</th><th>Proxy</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A</td><td><code>@</code></td><td><code>185.199.108.153</code></td><td>🟠 Orange</td></tr>
+            <tr><td>A</td><td><code>@</code></td><td><code>185.199.109.153</code></td><td>🟠 Orange</td></tr>
+            <tr><td>A</td><td><code>@</code></td><td><code>185.199.110.153</code></td><td>🟠 Orange</td></tr>
+            <tr><td>A</td><td><code>@</code></td><td><code>185.199.111.153</code></td><td>🟠 Orange</td></tr>
+            <tr><td>CNAME</td><td><code>www</code></td><td><code>apsmono.github.io</code></td><td>🟠 Orange</td></tr>
+            <tr><td>CNAME</td><td><code>koperasi</code></td><td><code>koperasi.pages.dev</code></td><td>🟠 Orange</td></tr>
+            <tr><td>CNAME</td><td><code>api</code></td><td><em>(tunnel hostname)</em></td><td>🟠 Orange</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout critical">
+          <div class="callout-title">🔴 Keep Proxy Orange</div>
+          <p>Always keep the cloud orange (Proxied). This gives you Cloudflare SSL, DDoS protection, and edge caching. Gray (DNS-only) exposes your origin IP.</p>
+        </div>
+
+        <h3>For apsmono.dev redirect</h3>
+        <p>Add these records, then create a Page Rule:</p>
+        <pre><code>CNAME @ apsmono.com (Proxied)
+CNAME www apsmono.com (Proxied)
+
+# Rules → Page Rules
+URL: apsmono.dev/*
+Setting: Forwarding URL → 301 → https://apsmono.com/$1</code></pre>
+      </section>
+
+      <!-- PHASE 3 -->
+      <section class="phase" data-phase="P3" id="p3">
+        <h2>Phase 3 — GitHub Pages Custom Domain</h2>
+
+        <h4>3a — Root User Site (apsmono.github.io repo)</h4>
+        <ol class="steps">
+          <li>
+            <strong>Repo settings</strong> → Pages → Custom domain → enter <code>apsmono.com</code>
+          </li>
+          <li>
+            <strong>Enforce HTTPS</strong> → check the box (after DNS propagates)
+          </li>
+          <li>
+            <strong>Wait for green checkmark</strong> — DNS verification takes ~1 hour
+          </li>
+        </ol>
+
+        <div class="callout info">
+          <div class="callout-title">📄 Root Site Index</div>
+          <p>If the root repo is empty, create a minimal <code>index.html</code> that redirects to <code>/dashboard/</code>:</p>
+        </div>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv="refresh" content="0; url=/dashboard/"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Redirecting to &lt;a href="/dashboard/"&gt;dashboard&lt;/a&gt;...&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h4>3b — Dashboard (apsmono/dashboard)</h4>
+        <ul>
+          <li>Repo settings → Pages → Custom domain → <strong>LEAVE BLANK</strong></li>
+          <li>Keep <code>base: '/dashboard/'</code> in <code>vite.config.ts</code></li>
+          <li>Because root site has custom domain, project pages <strong>auto-inherit</strong> it</li>
+          <li>Result: <code>https://apsmono.com/dashboard/</code></li>
+        </ul>
+
+        <h4>3c — Wedding Invitation (apsmono/wedding-invitation)</h4>
+        <ul>
+          <li>Repo settings → Pages → Custom domain → <strong>LEAVE BLANK</strong></li>
+          <li>Keep <code>base: '/wedding-invitation/'</code> in <code>vite.config.ts</code></li>
+          <li>Result: <code>https://apsmono.com/wedding-invitation/</code></li>
+        </ul>
+
+        <div class="callout tip">
+          <div class="callout-title">💡 Why Subpaths, Not Subdomains?</div>
+          <p>Subpaths require zero extra DNS. Subdomains need separate CNAMEs and each repo needs custom domain config. GitHub Pages' inheritance is the path of least resistance.</p>
+        </div>
+      </section>
+
+      <!-- PHASE 4 -->
+      <section class="phase" data-phase="P4" id="p4">
+        <h2>Phase 4 — Cloudflare Pages: Koperasi Custom Domain</h2>
+        <ol class="steps">
+          <li>
+            <strong>Cloudflare Dashboard</strong> → Pages → <code>koperasi</code> project
+          </li>
+          <li>
+            <strong>Custom domains</strong> → Set up a custom domain
+          </li>
+          <li>
+            Enter <code>koperasi.apsmono.com</code>
+          </li>
+          <li>
+            Cloudflare auto-creates the DNS record (confirms Phase 2 record)
+          </li>
+          <li>
+            Wait for SSL provisioning — usually <strong>&lt; 5 minutes</strong>
+          </li>
+        </ol>
+      </section>
+
+      <!-- PHASE 5 -->
+      <section class="phase" data-phase="P5" id="p5">
+        <h2>Phase 5 — Cloudflare Tunnel (MacMini Backend)</h2>
+        <p>This is the magic. No port forwarding. No DuckDNS. No certbot.</p>
+
+        <h4>5a — Install cloudflared</h4>
+        <pre><code># On MacMini
+brew install cloudflared
+cloudflared --version</code></pre>
+
+        <h4>5b — Authenticate</h4>
+        <pre><code>cloudflared tunnel login</code></pre>
+        <p>Opens browser → select your Cloudflare account → authorize. Certificate downloads to <code>~/.cloudflared/cert.pem</code>.</p>
+
+        <h4>5c — Create Tunnel</h4>
+        <pre><code>cloudflared tunnel create api-apsmono
+# Save the UUID output</code></pre>
+
+        <h4>5d — Configure</h4>
+        <p>Create <code>~/.cloudflared/config.yml</code>:</p>
+        <pre><code>tunnel: &lt;UUID-from-step-5c&gt;
+credentials-file: /Users/&lt;you&gt;/.cloudflared/&lt;UUID&gt;.json
+
+ingress:
+  - hostname: api.apsmono.com
+    service: http://localhost:8000
+    originRequest:
+      noTLSVerify: true
+  - service: http_status:404</code></pre>
+
+        <div class="callout warn">
+          <div class="callout-title">⚠️ localhost:8000</div>
+          <p>This assumes Docker Compose maps host port 8000 to the container. If your <code>docker-compose.yml</code> uses a different host port, change this.</p>
+        </div>
+
+        <h4>5e — Route DNS</h4>
+        <pre><code>cloudflared tunnel route dns api-apsmono api.apsmono.com</code></pre>
+
+        <h4>5f — Run as Service</h4>
+        <pre><code>sudo cloudflared service install
+sudo cp ~/.cloudflared/config.yml /etc/cloudflared/config.yml
+sudo cp ~/.cloudflared/&lt;UUID&gt;.json /etc/cloudflared/
+sudo launchctl load /Library/LaunchDaemons/com.cloudflare.cloudflared.plist</code></pre>
+
+        <p><strong>Verify:</strong></p>
+        <pre><code>curl https://api.apsmono.com/healthz</code></pre>
+      </section>
+
+      <!-- PHASE 6 -->
+      <section class="phase" data-phase="P6" id="p6">
+        <h2>Phase 6 — Firebase Configuration</h2>
+
+        <h4>6a — Authorized Domains</h4>
+        <p>Firebase Console → Authentication → Settings → Authorized domains</p>
+        <p><strong>Add:</strong></p>
+        <pre><code>apsmono.com
+www.apsmono.com
+*.apsmono.com
+localhost
+127.0.0.1</code></pre>
+
+        <div class="callout info">
+          <div class="callout-title">🛡️ Wildcard Support</div>
+          <p>Firebase Auth supports <code>*.apsmono.com</code> for custom domains. One entry covers all subdomains.</p>
+        </div>
+
+        <h4>6b — Functions CORS</h4>
+        <p>If your wedding/koperasi functions return CORS headers:</p>
+        <pre><code>const allowedOrigins = [
+  'https://apsmono.com',
+  'https://koperasi.apsmono.com'
+];
+
+// Deploy
+firebase deploy --only functions:wedding
+firebase deploy --only functions:koperasi</code></pre>
+      </section>
+
+      <!-- PHASE 7 -->
+      <section class="phase" data-phase="P7" id="p7">
+        <h2>Phase 7 — Solo-leveling Backend Updates</h2>
+
+        <h4>7a — Update .env</h4>
+        <pre><code># solo-leveling/.env
+FRONTEND_ORIGIN=https://apsmono.com
+API_BASE=https://api.apsmono.com</code></pre>
+
+        <h4>7b — Update CORS</h4>
+        <p>In your FastAPI app (<code>src/app.py</code> or similar):</p>
+        <pre><code>origins = [
+    "https://apsmono.com",
+    "https://www.apsmono.com",
+    "http://localhost:5173",
+    "http://localhost:8080",
+    "http://macmini.local:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)</code></pre>
+
+        <div class="callout critical">
+          <div class="callout-title">🔴 Credentials + Wildcards</div>
+          <p>When <code>allow_credentials=True</code>, you <strong>cannot</strong> use <code>allow_origins=["*"]</code>. FastAPI rejects this combo. List every origin explicitly.</p>
+        </div>
+
+        <h4>7c — Restart</h4>
+        <pre><code>cd solo-leveling
+docker compose down
+docker compose up -d</code></pre>
+      </section>
+
+      <!-- PHASE 8 -->
+      <section class="phase" data-phase="P8" id="p8">
+        <h2>Phase 8 — Dashboard Frontend Updates</h2>
+
+        <h4>8a — Update API Base</h4>
+        <p>In <code>dashboard/shared/firebase-config.js</code> or <code>.env</code>:</p>
+        <pre><code>export const API_BASE = 'https://api.apsmono.com';</code></pre>
+
+        <h4>8b — GitHub Actions Secret</h4>
+        <p>Repo Settings → Secrets → Actions:</p>
+        <table>
+          <thead>
+            <tr><th>Secret</th><th>Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>API_BASE</code></td><td><code>https://api.apsmono.com</code></td></tr>
+          </tbody>
+        </table>
+
+        <h4>8c — Push</h4>
+        <pre><code>git add .
+git commit -m "chore(dashboard): point API_BASE to custom domain"
+git push</code></pre>
+      </section>
+
+      <!-- PHASE 9 -->
+      <section class="phase" data-phase="P9" id="p9">
+        <h2>Phase 9 — Wedding Invitation Updates</h2>
+
+        <h4>9a — Keep Base Path</h4>
+        <pre><code>// wedding-invitation/vite.config.ts
+export default defineConfig({
+  base: '/wedding-invitation/',  // KEEP THIS
+  // ...
+});</code></pre>
+
+        <h4>9b — Update Meta Tags</h4>
+        <pre><code>&lt;meta property="og:url" content="https://apsmono.com/wedding-invitation/" /&gt;
+&lt;link rel="canonical" href="https://apsmono.com/wedding-invitation/" /&gt;</code></pre>
+
+        <h4>9c — Deploy</h4>
+        <pre><code>cd wedding-invitation
+git add .
+git commit -m "chore(wedding): update canonical URLs"
+git push</code></pre>
+      </section>
+
+      <!-- PHASE 10 -->
+      <section class="phase" data-phase="P10" id="p10">
+        <h2>Phase 10 — Testing Checklist</h2>
+
+        <h4>DNS Propagation</h4>
+        <pre><code>dig apsmono.com +short
+dig api.apsmono.com +short
+dig koperasi.apsmono.com +short
+
+# Should return Cloudflare IPs (104.21.x.x or 172.67.x.x)</code></pre>
+
+        <h4>SSL</h4>
+        <pre><code>curl -I https://apsmono.com
+curl -I https://api.apsmono.com
+curl -I https://koperasi.apsmono.com</code></pre>
+
+        <h4>Backend Health</h4>
+        <pre><code>curl https://api.apsmono.com/healthz
+curl -H "Origin: https://apsmono.com" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  https://api.apsmono.com/api/v1/dashboard</code></pre>
+
+        <h4>Auth Flow (Browser)</h4>
+        <ul class="checklist">
+          <li class="checked">Open <code>https://apsmono.com/dashboard/</code></li>
+          <li class="checked">Click Sign In with Google</li>
+          <li class="checked">Redirect back authenticated</li>
+          <li class="checked">Dashboard loads data from <code>api.apsmono.com</code></li>
+          <li class="checked">No CORS errors in DevTools</li>
+        </ul>
+
+        <h4>Wedding Invite</h4>
+        <ul class="checklist">
+          <li class="checked">Open <code>https://apsmono.com/wedding-invitation/?to=Test</code></li>
+          <li class="checked">WhatsApp RSVP link works</li>
+          <li class="checked">Assets load (no 404s)</li>
+        </ul>
+
+        <h4>Koperasi</h4>
+        <ul class="checklist">
+          <li class="checked">Open <code>https://koperasi.apsmono.com</code></li>
+          <li class="checked">Contact form / Google Forms link works</li>
+        </ul>
+      </section>
+
+      <div class="divider"></div>
+
+      <section id="urls">
+        <h2>Final URL Map</h2>
+        <div class="url-grid">
+          <div>https://apsmono.com</div>
+          <div>Root portfolio (redirects to /dashboard/)</div>
+          <div>https://apsmono.com/dashboard/</div>
+          <div>Auth-gated command center</div>
+          <div>https://apsmono.com/dashboard/#/view</div>
+          <div>Public portfolio view</div>
+          <div>https://apsmono.com/wedding-invitation/</div>
+          <div>Digital wedding invite</div>
+          <div>https://koperasi.apsmono.com</div>
+          <div>Koperasi KKS landing page</div>
+          <div>https://api.apsmono.com</div>
+          <div>Solo-leveling brain API</div>
+          <div>https://apsmono.dev</div>
+          <div>301 → apsmono.com</div>
+        </div>
+      </section>
+
+      <section id="troubleshoot">
+        <h2>Troubleshooting</h2>
+        <table>
+          <thead>
+            <tr><th>Problem</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>ERR_SSL_UNRECOGNIZED_NAME_ALERT</code></td><td>Tunnel not running: <code>sudo launchctl start com.cloudflare.cloudflared</code></td></tr>
+            <tr><td>CORS error in dashboard</td><td>Add exact origin to FastAPI <code>allow_origins</code> list</td></tr>
+            <tr><td>Firebase Auth popup blocked</td><td>Add <code>apsmono.com</code> to Firebase Auth authorized domains</td></tr>
+            <tr><td>Assets 404 on wedding page</td><td>Verify <code>vite.config.ts</code> base path is <code>/wedding-invitation/</code></td></tr>
+            <tr><td><code>apsmono.com</code> shows 404</td><td>Root <code>apsmono.github.io</code> repo needs <code>index.html</code></td></tr>
+            <tr><td>Koperasi shows default page</td><td>Check SSL status in Cloudflare Pages dashboard</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="docs">
+        <h2>Update Your Repo Docs</h2>
+        <p>After everything works, update these files:</p>
+        <ol>
+          <li><strong><code>AGENTS.md</code></strong> — Deployment Targets table with new URLs</li>
+          <li><strong><code>dashboard/README.md</code></strong> — URLs section</li>
+          <li><strong><code>wedding-invitation/README.md</code></strong> — Deployment checklist</li>
+          <li><strong><code>SECRETS_INVENTORY.md</code></strong> — Cloudflare Tunnel credentials location</li>
+          <li><strong><code>ROADMAP.md</code></strong> — Check off Phase 2 items</li>
+        </ol>
+
+        <div class="callout tip">
+          <div class="callout-title">✅ You're Done</div>
+          <p>Your personal OS now has a unified domain, secure backend tunnel, free static hosting, and a single Firebase auth surface. Total recurring cost: <strong>~$10/year for the domain</strong>.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-group a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        if (scrollY >= top - 120) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

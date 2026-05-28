@@ -33,7 +33,8 @@ git submodule update --init --recursive
 | Directory | Type | Repository | Description |
 |-----------|------|------------|-------------|
 | `solo-leveling/` | submodule | `apsmono/solo-leveling` | Python FastAPI backend brain & command center |
-| `dashboard/` | submodule | `apsmono/dashboard` | Portfolio + authenticated command center (GitHub Pages) |
+| `apsmono.github.io/` | submodule | `apsmono/apsmono.github.io` | Portfolio site (Vite + React + Tailwind) |
+| `dashboard/` | submodule | `apsmono/dashboard` | Authenticated command center (GitHub Pages) |
 | `wedding-invitation/` | submodule | `apsmono/wedding-invitation` | Vite + React + TS digital wedding invite |
 | `koperasi/` | submodule | `apsmono/koperasi` | Koperasi KKS static landing page |
 | `scrapers/` | tracked | this repo | Python scraping scripts (scaffolding) |
@@ -79,6 +80,14 @@ bun run dev      # http://localhost:5173
 bun run build    # outputs dist/
 ```
 
+### apsmono.github.io (portfolio)
+```bash
+cd apsmono.github.io
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # outputs dist/
+```
+
 ### dashboard (local preview)
 ```bash
 cd dashboard
@@ -90,6 +99,7 @@ python -m http.server 8080
 | Project | Target | Method |
 |---------|--------|--------|
 | solo-leveling | Railway / MacMini Docker | `docker compose up -d` |
+| apsmono.github.io | GitHub Pages | `.github/workflows/deploy.yml` |
 | dashboard | GitHub Pages | `.github/workflows/deploy.yml` |
 | wedding-invitation | GitHub Pages | `.github/workflows/deploy.yml` |
 | koperasi | Cloudflare Pages | Connect repo to Cloudflare Dashboard |

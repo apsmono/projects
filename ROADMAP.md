@@ -14,6 +14,7 @@
 | Project | Local Plan | Repo |
 |---------|-----------|------|
 | **solo-leveling** (brain) | `docs/PLAN-WITHOUT-WHATSAPP-2026-04-22.md` + `AI_CONTEXT.md` | `apsmono/solo-leveling` |
+| **apsmono.github.io** | `README.md` | `apsmono/apsmono.github.io` |
 | **dashboard** | `README.md` (config + deploy steps) | `apsmono/dashboard` |
 | **wedding-invitation** | `README.md` deploy checklist + `CONTENT_GUIDE.md` | `apsmono/wedding-invitation` |
 | **koperasi** | `README.md` | `apsmono/koperasi` |
@@ -34,8 +35,11 @@ Cloudflare).
                           │
         ┌─────────────────┼─────────────────┐
         │                 │                 │
-    dashboard      wedding-invitation    koperasi
-   (calls /api/v1)   (independent)      (independent)
+  apsmono.github.io  wedding-invitation    koperasi
+   (embeds dashboard)   (independent)      (independent)
+        │
+    dashboard
+   (calls /api/v1)
         │
    Firebase Auth ←───── shared project ─────→
 ```
@@ -77,30 +81,33 @@ endpoints can break the dashboard. Contract awareness is required on both sides.
 
 ## Roadmap Phases
 
-### Phase 1 — Workspace Hygiene (Immediate)
+### Phase 1 — Workspace Hygiene ✅
 **Goal:** Parent repo accurately reflects current state of every submodule.
 
 - [x] Pin submodules cleanly (no dirty `+`/`-` in `git submodule status`)
 - [x] Create this `ROADMAP.md` + `SECRETS_INVENTORY.md`
-- [ ] Audit parent-repo untracked files (`.firebaserc`, `firebase.json`, `firebase/`, `FIREBASE.md` are intentionally tracked; `graphify-out/` belongs in `.gitignore`)
+- [x] Audit parent-repo untracked files (`apsmono.github.io` added as submodule; research docs committed)
 - [ ] Link every submodule README back to this roadmap
 
-### Phase 2 — Cross-Project Integration (Next)
+### Phase 2 — Cross-Project Integration ✅
 **Goal:** Dashboard ↔ brain auth and API flow works end-to-end in production.
 
-- [ ] Firebase project alignment — same project for brain Admin SDK and dashboard client
-- [ ] Set `FRONTEND_ORIGIN` in brain `.env` to dashboard GitHub Pages URL
-- [ ] Set `API_BASE` in dashboard to brain live URL
-- [ ] Dashboard first deploy with real Firebase config + CORS verification
-- [ ] Document the live URL contract in this repo
+- [x] Firebase project alignment — same project for brain Admin SDK and dashboard client
+- [x] Set `FRONTEND_ORIGIN` in brain `.env` to dashboard GitHub Pages URL
+- [x] Set `API_BASE` in dashboard to brain live URL
+- [x] Dashboard first deploy with real Firebase config + CORS verification
+- [x] Document the live URL contract in this repo (`AGENTS.md`, `ARCHITECTURE.md`, `SECRETS_INVENTORY.md`)
+- [x] Portfolio site (`apsmono.github.io`) deployed to custom domain `apsmono.com`
+- [x] Dashboard embedded at `/dashboard/` path on portfolio domain
 
-### Phase 3 — Content & Delivery (Parallel)
+### Phase 3 — Content & Delivery (In Progress)
 **Goal:** Real-world deliverables are content-complete and deployed.
 
 **Wedding invitation**
+- [x] Add names, wedding date, nicknames
+- [x] Refresh gallery, remove gift section
+- [x] Deploy via GitHub Pages workflow
 - [ ] Add final venue name, full address, RSVP number, planner contact, maps
-- [ ] Replace gallery placeholders with real photos
-- [ ] Deploy via GitHub Pages workflow
 - [ ] Test RSVP WhatsApp flow on mobile
 
 **Koperasi landing**
@@ -119,8 +126,9 @@ endpoints can break the dashboard. Contract awareness is required on both sides.
 
 ## Success Criteria
 
-- [ ] `git submodule status` shows clean pins (no `+`/`-`)
-- [ ] Dashboard loads from GitHub Pages and successfully calls brain `/api/v1/dashboard`
+- [x] `git submodule status` shows clean pins (no `+`/`-`)
+- [x] Dashboard loads from GitHub Pages and successfully calls brain `/api/v1/dashboard`
+- [x] Portfolio site (`apsmono.com`) live with embedded dashboard
 - [ ] Wedding invitation deployed with real content and working RSVP
 - [ ] Koperasi deployed with real content
 - [ ] New clone + `git submodule update --init --recursive` + `SECRETS_INVENTORY.md` = working local dev
