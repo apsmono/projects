@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=changeme-strong-password
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=Asia/Jakarta
+      # AI integrations
+      - N8N_AI_ENABLED=true
+    volumes:
+      - n8n_data:/home/node/.n8n
+    # Optional: limit resources for local dev
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+
+  # Optional: Postgres for n8n data (instead of SQLite)
+  # Uncomment if you need production-grade storage
+  # postgres:
+  #   image: postgres:16-alpine
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=n8n
+  #     - POSTGRES_PASSWORD=n8n-password
+  #     - POSTGRES_DB=n8n
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+  # Optional: Redis for queue management
+  # redis:
+  #   image: redis:7-alpine
+  #   restart: always
+  #   volumes:
+  #     - redis_data:/data
+
+volumes:
+  n8n_data:
+  # postgres_data:
+  # redis_data:
