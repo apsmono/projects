@@ -26,17 +26,23 @@ services:
           cpus: '2'
           memory: 2G
 
-  # Optional: Postgres for n8n data (instead of SQLite)
-  # Uncomment if you need production-grade storage
-  # postgres:
-  #   image: postgres:16-alpine
-  #   restart: always
-  #   environment:
-  #     - POSTGRES_USER=n8n
-  #     - POSTGRES_PASSWORD=n8n-password
-  #     - POSTGRES_DB=n8n
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
+  # Signal vector database (pgvector) — separate from n8n DB
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    environment:
+      - POSTGRES_USER=signal
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=signal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U signal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Optional: Redis for queue management
   # redis:
@@ -45,7 +51,10 @@ services:
   #   volumes:
   #     - redis_data:/data
 
+networks:
+  internal:
+    driver: bridge
+
 volumes:
   n8n_data:
-  # postgres_data:
-  # redis_data:
+  postgres_data:
