@@ -13,7 +13,8 @@ dist/
 # IDE
 .vscode/
 .idea/
-.claude/
+.claude/*
+!.claude/settings.json
 .cursor/
 
 # Backup directories
