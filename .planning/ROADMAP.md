@@ -70,7 +70,12 @@ Plans:
   2. The owner's OAuth credentials are injected into the corresponding n8n nodes by the backend (owner never handles raw keys/webhooks)
   3. n8n execution status and webhook callbacks are ingested back into the brain
   4. A forced backend/n8n failure surfaces to the owner as a soft AI-Guide message, not a raw stack trace
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Wave 1: n8n REST client + error abstraction + test stubs + config
+- [ ] 02-02-PLAN.md — Wave 1: Intent executor + credential injection + template skeletons
+- [ ] 02-03-PLAN.md — Wave 2: Webhook callback endpoint + full test coverage
 
 ### Phase 3: Knowledge Library + Conceptual Search + AI Guide
 **Goal**: Ship the differentiated Milestone-1 slice on top of the Phase 1 vector spine (this phase must not be blocked by the n8n layer). Reuse the existing folderless library store and dashboard Q&A component, layer vector search over the keyword store (EVOLVE), and replace the brittle keyword `INTENT_MAP` with the Gemini dispatcher driving an LLM intent-parsing Command Bar (EVOLVE). Deliver the persistent right-hand AI Guide as a standalone usable surface even before the full Zen shell exists.
@@ -178,7 +183,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data & Auth Foundation | 0/5 | Planned | - |
-| 2. n8n Execution Layer | 0/TBD | Not started | - |
+| 2. n8n Execution Layer | 0/3 | Planned | - |
 | 3. Knowledge Library + Conceptual Search + AI Guide | 3/5 | In Progress|  |
 | 4. Zen Shell + Clarity Board | 0/TBD | Not started | - |
 | 5. Onboarding + Instant Win | 0/TBD | Not started | - |
