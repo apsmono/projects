@@ -845,27 +845,15 @@ cred_id = sync_credential("gmail", token_data, owner_id="pramono@getgoing.co.id"
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Does n8n's `POST /api/v1/credentials` handle encryption server-side?**
-   - What we know: Community sources say yes — the API consumer sends plaintext, n8n encrypts with `N8N_ENCRYPTION_KEY`.
-   - What's unclear: Not verified against a live n8n instance. Some older threads suggest the data field must be pre-encrypted.
-   - Recommendation: Verify by creating a credential via the API on the local n8n instance and checking if it works in a workflow. If pre-encryption is needed, the `N8N_ENCRYPTION_KEY` env var must be read and AES encryption applied — but this is unlikely for the public API.
+1. **Does n8n's `POST /api/v1/credentials` handle encryption server-side?** — RESOLVED: Proceed with assumption that n8n encrypts server-side (brain sends plaintext). Verify during live integration test in Wave 0. If pre-encryption is needed, add AES crypto with `N8N_ENCRYPTION_KEY` — but this is unlikely for the public API.
 
-2. **What are the exact n8n credential type names and field schemas for Gmail OAuth2, GitHub, Notion, Telegram?**
-   - What we know: Type names like `gmailOAuth2`, `githubApi`, `notionApi`, `telegramApi` are commonly referenced in community posts.
-   - What's unclear: Exact field names within the `data` object for each type. These are not formally documented.
-   - Recommendation: Create each credential type manually in the n8n UI, then `GET /api/v1/credentials/{id}` to discover the schema. Document the schemas in the template files.
+2. **What are the exact n8n credential type names and field schemas for Gmail OAuth2, GitHub, Notion, Telegram?** — RESOLVED: Proceed with documented type names (`gmailOAuth2`, `githubApi`, `notionApi`, `telegramApi`). Verify field schemas by creating credentials manually in n8n UI then `GET /api/v1/credentials/{id}` during Wave 0 setup.
 
-3. **Should the brain use `POST /api/v1/workflows/{id}/run` (manual execution) or trigger via webhook URL?**
-   - What we know: Both are available. Manual execution is simpler but requires the workflow to have a Start node. Webhook triggering requires the workflow to have a Webhook node and be activated.
-   - What's unclear: Whether manual execution returns the result synchronously or only the execution ID.
-   - Recommendation: Use webhook triggering for production workflows (more flexible, supports async). Use manual execution for testing. The webhook approach also enables the callback pattern for N8N-04.
+3. **Should the brain use `POST /api/v1/workflows/{id}/run` (manual execution) or trigger via webhook URL?** — RESOLVED: Use `POST /api/v1/workflows/{id}/run` for this phase (simpler, synchronous for short workflows). Webhook triggering is a possible production enhancement but not required to prove the pipeline.
 
-4. **How does the brain discover n8n workflow IDs for its templates?**
-   - What we know: Templates reference `n8n_workflow_id` but the ID is assigned by n8n when the workflow is created.
-   - What's unclear: Whether templates should be pre-created in n8n (and IDs recorded) or created programmatically on first use.
-   - Recommendation: Pre-create the starter workflows in n8n via the API during setup. Record the returned IDs in the template JSON files. This is a one-time setup step.
+4. **How does the brain discover n8n workflow IDs for its templates?** — RESOLVED: Pre-create starter workflows in n8n via the API during Wave 0 setup. Record returned IDs in template JSON files. This is a one-time setup step documented in the plan.
 
 ---
 
