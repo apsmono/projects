@@ -88,7 +88,7 @@ Plans:
   3. Owner can ask a question against a selected entry and get an answer grounded in that entry
   4. The persistent AI Guide panel accepts a natural-language command and executes the resolved intent via LLM parsing (not keyword matching)
   5. A status banner reports processed-noise metrics (e.g. "processed N items for you") and the owner can park a stray thought without leaving focus
-**Plans**: 5 plans
+**Plans**: 6 plans (+ 1 gap-closure)
 
 Plans:
 - [x] 03-01-PLAN.md — Wave 0: Test stubs + API contracts + dashboard scaffold
@@ -96,6 +96,7 @@ Plans:
 - [x] 03-03-PLAN.md — Wave 2: LLM intent parser + guide API
 - [x] 03-04-PLAN.md — Wave 3: AI Guide panel UI (dashboard)
 - [x] 03-05-PLAN.md — Wave 4: Integration verification + docs + phase close
+- [ ] 03-07-PLAN.md — Gap closure: fix #/library deep-link/refresh 404 (route dashboard paths to DashboardPage + hydrate tabs from hash) [UAT items 8–13]
 
 ### Phase 4: Zen Shell + Clarity Board
 **Goal**: Build the structural 70/30 Zen workspace (BUILD-NEW — a rebuild of the static dashboard, not a restyle): Panel A Clarity Board + locked Panel B (the AI Guide from Phase 3), the Core Dashboard Critical Focus Block with its "You are entirely caught up" empty state, the Context Nest of compressed 3-bullet cards, clean switching between Core Dashboard / Knowledge Library / Routine Planner views, and view-adaptive contextual action buttons.
@@ -187,7 +188,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Data & Auth Foundation | 0/5 | Planned | - |
 | 2. n8n Execution Layer | 0/3 | Planned | - |
-| 3. Knowledge Library + Conceptual Search + AI Guide | 5/5 | Complete | 2026-05-30 |
+| 3. Knowledge Library + Conceptual Search + AI Guide | 6/7 | In Progress (gap closure) |  |
 | 4. Zen Shell + Clarity Board | 1/1 | Complete | 2026-05-30 |
 | 5. Onboarding + Instant Win | 0/TBD | Not started | - |
 | 6. Smart Feeds | 0/TBD | Not started | - |
