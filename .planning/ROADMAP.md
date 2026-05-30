@@ -86,9 +86,9 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Wave 0: Test stubs + API contracts + dashboard scaffold
-- [ ] 03-02-PLAN.md — Wave 1: Vector search backend + library API enhancements
-- [ ] 03-03-PLAN.md — Wave 2: LLM intent parser + guide API
+- [x] 03-01-PLAN.md — Wave 0: Test stubs + API contracts + dashboard scaffold
+- [x] 03-02-PLAN.md — Wave 1: Vector search backend + library API enhancements
+- [x] 03-03-PLAN.md — Wave 2: LLM intent parser + guide API
 - [ ] 03-04-PLAN.md — Wave 3: AI Guide panel UI (dashboard)
 - [ ] 03-05-PLAN.md — Wave 4: Integration verification + docs + phase close
 
@@ -179,7 +179,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Data & Auth Foundation | 0/5 | Planned | - |
 | 2. n8n Execution Layer | 0/TBD | Not started | - |
-| 3. Knowledge Library + Conceptual Search + AI Guide | 0/5 | Planned | - |
+| 3. Knowledge Library + Conceptual Search + AI Guide | 3/5 | In Progress|  |
 | 4. Zen Shell + Clarity Board | 0/TBD | Not started | - |
 | 5. Onboarding + Instant Win | 0/TBD | Not started | - |
 | 6. Smart Feeds | 0/TBD | Not started | - |
