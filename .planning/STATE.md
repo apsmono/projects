@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-05-30T02:40:27.122Z"
-last_activity: 2026-05-30 -- Phase 03 execution started
+status: phase_complete
+stopped_at: Phase 04 complete — ready for Phase 05
+last_updated: "2026-05-30T03:50:00.000Z"
+last_activity: 2026-05-30 -- Phase 04 complete (Zen shell + verification)
 progress:
   total_phases: 9
-  completed_phases: 1
-  total_plans: 10
-  completed_plans: 7
-  percent: 11
+  completed_phases: 3
+  total_plans: 12
+  completed_plans: 12
+  percent: 33
 ---
 
 # Project State
@@ -21,35 +21,36 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-29)
 
 **Core value:** Turn raw noise into a small number of trustworthy, actionable signals — the conceptual Knowledge Library + AI Guide must let the owner find and act on what matters without managing ten tabs.
-**Current focus:** Phase 03 — knowledge-library
+**Current focus:** Phase 05 — Onboarding + Instant Win (or Phase 02 — n8n Execution Layer)
 
 ## Current Position
 
-Phase: 03 (knowledge-library) — EXECUTING
-Plan: 1 of 5
-Status: Executing Phase 03
-Last activity: 2026-05-30 -- Phase 03 execution started
+Phase: 04 (zen-shell) — COMPLETE
+Plan: 2 of 2 (scaffold + verification)
+Status: Phase 04 signed off — ready for Phase 05 (Onboarding) or Phase 02 (n8n)
+Last activity: 2026-05-30 -- Phase 04 complete (Zen shell + verification)
 
-Progress: [██░░░░░░░░] 11%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 5
-- Average duration: ~18 min
-- Total execution time: ~1.5 hours
+- Total plans completed: 10
+- Average duration: ~15 min
+- Total execution time: ~2.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-data-auth-foundation | 5 | 5 | ~18 min |
+| 03-knowledge-library | 5 | 5 | ~12 min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (stubs), 01-02 (vector DB), 01-03 (embeddings), 01-04 (auth), 01-05 (integration + docs)
-- Trend: Steady execution, 2 auto-fixes per wave average
+- Last 5 plans: 03-01 (stubs), 03-02 (vector search), 03-03 (intent parser + guide API), 03-04 (guide UI), 03-05 (verification + close)
+- Trend: Steady execution across backend and dashboard waves
 
 *Updated after each plan completion*
 
@@ -60,39 +61,23 @@ Progress: [██░░░░░░░░] 11%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Init]: Personal-first / single-tenant now, built tenant-ready (no multi-tenancy hard-blocks)
-- [Init]: n8n is the firm execution engine; brain = control/AI plane + intent→JSON translator
-- [Init]: Reuse-parts hybrid — reuse mature brain (planning, library, scheduler, dispatcher, RL gate) before building new
-- [Init]: Milestone 1 = Knowledge Library + conceptual search + AI Guide (now Phase 3, brain-reuse-heavy)
-- [Init]: Vector DB is the gating foundation item (powers conceptual search AND token-cache/dedup)
-- [Revision]: Foundation split into two balanced phases — Phase 1 (Data & Auth: vector spine + token-cache + tenant-ready persistence + Google OAuth) and Phase 2 (n8n Execution Layer: REST client + credential injection + callbacks + soft error abstraction). Milestone-1 (now Phase 3) depends only on the Phase 1 vector spine, NOT the n8n layer.
+- [03-05]: Library tests force filesystem store when temp dirs used (USE_FIRESTORE_LIBRARY isolation)
+- [03-05]: Guide API tests patch deps.verify_id_token for auth mocking
+- [03-04]: Guide chat state lifted to DashboardPage for tab-switch persistence
+- [03-03]: route_command evolved to use LLM parsing — all interfaces benefit automatically
+- [03-02]: Hybrid search prefers keyword when abundant, falls back to vector
 
 ### Pending Todos
 
-None yet.
-
-### Decisions (from Phase 1 execution)
-
-- [01-05]: Human verification checkpoint for browser cookie behavior was skipped by user; automated tests already verified endpoint logic
-- [01-05]: CHANGELOG entries grouped by Wave (1-4) for readability
-- [01-04]: Module-level `fb_auth` import enables `unittest.mock.patch` in tests
-- [01-04]: `SESSION_COOKIE_SECURE` defaults to True, overridable via env for local HTTP dev
-- [01-04]: Auth router registered at top-level `/auth/*`, not nested under `/api/v1/`
-- [01-03]: Fire-and-forget embedding hooks via `asyncio.create_task()` — never block library save path
-- [01-02]: AsyncConnectionPool managed via FastAPI lifespan for proper startup/shutdown
+- Human browser E2E verification of AI Guide flow (optional before deploy)
 
 ### Blockers/Concerns
 
-- [Phase 1]: ~~Repo layout decided~~ — extend `solo-leveling`/`dashboard` (completed)
-- [Phase 1]: Brain is hard single-tenant today (`ALLOWED_USER_EMAIL`, one shared library, single-owner tokens) — INFRA-04 re-scoped with `owner_id` columns; future multi-tenancy not hard-blocked
-- [Phase 2]: Ready to begin — n8n Execution Layer (REST client, credential injection, callbacks, soft error abstraction)
-- [Phase 3]: Ready to begin — Knowledge Library + Conceptual Search + AI Guide (vector spine available)
-- [Phase 5]: Onboarding depends on both Phase 4 (Zen shell) and Phase 2 (n8n credential layer + digest pipeline).
-- [Phase 9]: Zero-retention LLM (SAFE-01) and Panic Button (SAFE-03) depend on the n8n credential layer landing correctly in Phase 2.
+- [Phase 2]: Ready to begin — n8n Execution Layer (can run parallel to Phase 4)
+- [Phase 4]: Ready to begin — Zen Shell + Clarity Board (depends on Phase 3 Guide panel)
+- [Phase 5]: Onboarding depends on Phase 4 + Phase 2
 
 ## Deferred Items
-
-Items acknowledged and carried forward from previous milestone close:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -100,6 +85,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-05-30T02:05:36.125Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-n8n-execution-layer/02-CONTEXT.md
+Last session: 2026-05-30
+Stopped at: Phase 03 complete — ready for Phase 04
+Resume file: .planning/ROADMAP.md → Phase 4: Zen Shell + Clarity Board

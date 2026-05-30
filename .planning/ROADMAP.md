@@ -30,8 +30,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Data & Auth Foundation** - Net-new vector spine: vector DB + embeddings + token-cache/dedup, tenant-ready single-record persistence, persistent Google OAuth
 - [ ] **Phase 2: n8n Execution Layer** - n8n REST client + owner-credential injection + intent→JSON triggering + webhook/status callback ingestion, plus the soft error-abstraction layer
-- [ ] **Phase 3: Knowledge Library + Conceptual Search + AI Guide** - Milestone-1 centerpiece: folderless vector-searchable library, Recent Spark Cards, per-entry Q&A, and the persistent LLM-driven AI Guide
-- [ ] **Phase 4: Zen Shell + Clarity Board** - Asymmetric 70/30 split-screen with locked Panel B, Core Dashboard focus block, Context Nest, view switching, contextual actions
+- [x] **Phase 3: Knowledge Library + Conceptual Search + AI Guide** - Milestone-1 centerpiece: folderless vector-searchable library, Recent Spark Cards, per-entry Q&A, and the persistent LLM-driven AI Guide
+- [x] **Phase 4: Zen Shell + Clarity Board** - Asymmetric 70/30 split-screen with locked Panel B, Core Dashboard focus block, Context Nest, view switching, contextual actions
 - [ ] **Phase 5: Onboarding + Instant Win** - Guided sub-2-minute flow: Identity Box → AI-parsed profile → relevant-app connect → first live 24-hour digest
 - [ ] **Phase 6: Smart Feeds** - YouTube/email/news compression into 3-bullet Context Nest cards, vector-based news dedup, silent queue, n8n template pipelines
 - [ ] **Phase 7: Smart Drafts + Human-in-the-Loop** - Context-aware style-matched reply drafts with one-click tone variants, gated by the reused RL governor / approval store
@@ -74,8 +74,8 @@ Plans:
 
 Plans:
 - [ ] 02-01-PLAN.md — Wave 1: n8n REST client + error abstraction + test stubs + config
-- [ ] 02-02-PLAN.md — Wave 1: Intent executor + credential injection + template skeletons
-- [ ] 02-03-PLAN.md — Wave 2: Webhook callback endpoint + full test coverage
+- [ ] 02-02-PLAN.md — Wave 2: Intent executor (LLM param fill + RL gate) + credential injection + connect-time sync + router wiring + template skeletons
+- [ ] 02-03-PLAN.md — Wave 3: Webhook callback endpoint + full test coverage + live n8n provisioning checkpoint
 
 ### Phase 3: Knowledge Library + Conceptual Search + AI Guide
 **Goal**: Ship the differentiated Milestone-1 slice on top of the Phase 1 vector spine (this phase must not be blocked by the n8n layer). Reuse the existing folderless library store and dashboard Q&A component, layer vector search over the keyword store (EVOLVE), and replace the brittle keyword `INTENT_MAP` with the Gemini dispatcher driving an LLM intent-parsing Command Bar (EVOLVE). Deliver the persistent right-hand AI Guide as a standalone usable surface even before the full Zen shell exists.
@@ -94,8 +94,8 @@ Plans:
 - [x] 03-01-PLAN.md — Wave 0: Test stubs + API contracts + dashboard scaffold
 - [x] 03-02-PLAN.md — Wave 1: Vector search backend + library API enhancements
 - [x] 03-03-PLAN.md — Wave 2: LLM intent parser + guide API
-- [ ] 03-04-PLAN.md — Wave 3: AI Guide panel UI (dashboard)
-- [ ] 03-05-PLAN.md — Wave 4: Integration verification + docs + phase close
+- [x] 03-04-PLAN.md — Wave 3: AI Guide panel UI (dashboard)
+- [x] 03-05-PLAN.md — Wave 4: Integration verification + docs + phase close
 
 ### Phase 4: Zen Shell + Clarity Board
 **Goal**: Build the structural 70/30 Zen workspace (BUILD-NEW — a rebuild of the static dashboard, not a restyle): Panel A Clarity Board + locked Panel B (the AI Guide from Phase 3), the Core Dashboard Critical Focus Block with its "You are entirely caught up" empty state, the Context Nest of compressed 3-bullet cards, clean switching between Core Dashboard / Knowledge Library / Routine Planner views, and view-adaptive contextual action buttons.
@@ -108,7 +108,10 @@ Plans:
   3. The Context Nest renders stream cards each limited to exactly 3 single-sentence bullets
   4. The owner can switch cleanly between Core Dashboard, Knowledge Library, and Routine Planner views
   5. Contextual action buttons change to match the active view/card (e.g. "draft a reply" on an email card)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [x] 04-01-PLAN.md — Wave 1: Zen shell scaffold (ZenShell, ClarityBoard, Critical Focus, Context Nest, contextual actions)
 **UI hint**: yes
 
 ### Phase 5: Onboarding + Instant Win
@@ -184,8 +187,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Data & Auth Foundation | 0/5 | Planned | - |
 | 2. n8n Execution Layer | 0/3 | Planned | - |
-| 3. Knowledge Library + Conceptual Search + AI Guide | 3/5 | In Progress|  |
-| 4. Zen Shell + Clarity Board | 0/TBD | Not started | - |
+| 3. Knowledge Library + Conceptual Search + AI Guide | 5/5 | Complete | 2026-05-30 |
+| 4. Zen Shell + Clarity Board | 1/1 | Complete | 2026-05-30 |
 | 5. Onboarding + Instant Win | 0/TBD | Not started | - |
 | 6. Smart Feeds | 0/TBD | Not started | - |
 | 7. Smart Drafts + Human-in-the-Loop | 0/TBD | Not started | - |
