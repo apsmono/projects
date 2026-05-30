@@ -1,8 +1,8 @@
 ---
 phase: 3
 slug: knowledge-library
-status: draft
-nyquist_compliant: false
+status: planned
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-05-30
 ---

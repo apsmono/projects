@@ -474,20 +474,22 @@ return (
 
 ## Open Questions
 
+**RESOLVED** — All questions below were resolved during planning and are reflected in the PLAN.md files.
+
 1. **Should vector search support filtering by section/tag before or after the vector query?**
    - What we know: pgvector supports `WHERE` clauses before `ORDER BY` distance. Filtering by section in SQL is efficient.
    - What's unclear: Whether the frontend needs section-filtered conceptual search, or if global conceptual search is sufficient.
-   - Recommendation: Start with global vector search (no section filter). Add section-filtered vector search if LIB-02 user testing shows it's needed.
+   - **RESOLVED:** Start with global vector search (no section filter). Add section-filtered vector search if LIB-02 user testing shows it's needed. See `03-02-PLAN.md` Task 1.
 
 2. **How should the AI Guide panel handle the transition to the Zen shell (Phase 4)?**
    - What we know: Phase 4 will lock the AI Guide into Panel B of a 70/30 split-screen.
    - What's unclear: Whether to build the panel as position-agnostic now (so it works both standalone and locked), or to build for standalone and refactor in Phase 4.
-   - Recommendation: Build `AIGuidePanel` as a self-contained component with no positioning logic. `DashboardPage` decides where to render it. Phase 4 will simply move the render location.
+   - **RESOLVED:** Build `AIGuidePanel` as a self-contained component with no positioning logic. `DashboardPage` decides where to render it. Phase 4 will simply move the render location. See `03-04-PLAN.md` Task 3.
 
 3. **What processed-noise metrics should the status banner show?**
    - What we know: GUIDE-03 asks for "reassuring processed-noise metrics (e.g. 'processed N items for you')".
    - What's unclear: Which metrics are available now vs. need new instrumentation.
-   - Recommendation: Start with library entry count, recent captures (last 24h), and command count. These are all queryable from existing data. Add feed/draft metrics in later phases when those pipelines exist.
+   - **RESOLVED:** Start with library entry count, recent captures (last 24h), and command count. These are all queryable from existing data. Add feed/draft metrics in later phases when those pipelines exist. See `03-03-PLAN.md` Task 3 (`GET /guide/status`).
 
 ## Environment Availability
 
