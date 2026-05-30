@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase_complete
-stopped_at: Phase 04 complete — ready for Phase 05
-last_updated: "2026-05-30T03:50:00.000Z"
-last_activity: 2026-05-30 -- Phase 04 complete (Zen shell + verification)
+status: executing
+stopped_at: Completed 03-07-PLAN.md (hash-route deep-link/refresh + tab-URL sync fix)
+last_updated: "2026-05-30T12:00:00.000Z"
+last_activity: 2026-05-30 -- Phase 03 execution started
 progress:
   total_phases: 9
-  completed_phases: 3
-  total_plans: 12
-  completed_plans: 12
-  percent: 33
+  completed_phases: 2
+  total_plans: 19
+  completed_plans: 19
+  percent: 22
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-29)
 
 **Core value:** Turn raw noise into a small number of trustworthy, actionable signals — the conceptual Knowledge Library + AI Guide must let the owner find and act on what matters without managing ten tabs.
-**Current focus:** Phase 05 — Onboarding + Instant Win (or Phase 02 — n8n Execution Layer)
+**Current focus:** Phase 03 — knowledge-library
 
 ## Current Position
 
-Phase: 04 (zen-shell) — COMPLETE
-Plan: 2 of 2 (scaffold + verification)
-Status: Phase 04 signed off — ready for Phase 05 (Onboarding) or Phase 02 (n8n)
-Last activity: 2026-05-30 -- Phase 04 complete (Zen shell + verification)
+Phase: 03 (knowledge-library) — EXECUTING
+Plan: 1 of 11
+Status: Executing Phase 03
+Last activity: 2026-05-30 -- Phase 03 execution started
 
 Progress: [███░░░░░░░] 33%
 
@@ -66,6 +66,9 @@ Recent decisions affecting current work:
 - [03-04]: Guide chat state lifted to DashboardPage for tab-switch persistence
 - [03-03]: route_command evolved to use LLM parsing — all interfaces benefit automatically
 - [03-02]: Hybrid search prefers keyword when abundant, falls back to vector
+- [03-07]: dashboardRoutes.ts is the single source of truth for all dashboard-owned hash routes — extend it when adding new tabs
+- [03-07]: tabStateToRoute (write-side) scope extension approved mid-checkpoint — all tab switches now sync the browser hash
+- [03-07]: UAT items 9–13 deferred to post-deploy human testing (no local data); item 8 confirmed fixed
 
 ### Pending Todos
 
@@ -85,6 +88,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-05-30
-Stopped at: Phase 03 complete — ready for Phase 04
-Resume file: .planning/ROADMAP.md → Phase 4: Zen Shell + Clarity Board
+Last session: 2026-05-30T12:00:00.000Z
+Stopped at: Completed 03-07-PLAN.md (hash-route deep-link/refresh + tab-URL sync fix) — Phase 03 complete
+Resume file: None
